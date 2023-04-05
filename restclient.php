@@ -1,14 +1,17 @@
 <?php declare(strict_types=1);
 
+namespace GGEWeb;
+
 /**
  * PHP REST Client
  * https://github.com/tcdent/php-restclient
  * (c) 2013-2022 Travis Dent <tcdent@gmail.com>
  */
 
-class RestClientException extends Exception {}
 
-class RestClient implements Iterator, ArrayAccess {
+class RestClientException extends \Exception {}
+
+class RestClient implements \Iterator, \ArrayAccess {
     
     public $options;
     public $handle; // cURL resource handle.
@@ -16,6 +19,7 @@ class RestClient implements Iterator, ArrayAccess {
     // Populated after execution:
     public $response; // Response body.
     public $headers; // Parsed reponse header object.
+    public $req_header; // Request header string.
     public $info; // Response info object.
     public $error; // Response error string.
     public $response_status_lines; // indexed array of raw HTTP response status lines.
@@ -31,14 +35,15 @@ class RestClient implements Iterator, ArrayAccess {
             'build_indexed_queries' => FALSE, 
             'user_agent' => "PHP RestClient/0.1.8", 
             'base_url' => NULL, 
-            'format' => NULL, 
+            'format' => NULL,
             'format_regex' => "/(\w+)\/(\w+)(;[.+])?/",
             'decoders' => [
                 'json' => 'json_decode', 
                 'php' => 'unserialize'
             ], 
             'username' => NULL, 
-            'password' => NULL
+            'password' => NULL,
+            'debug' => FALSE
         ];
         
         $this->options = array_merge($default_options, $options);
@@ -148,13 +153,13 @@ class RestClient implements Iterator, ArrayAccess {
             $headers = array_merge($client->options['headers'], $headers);
             foreach($headers as $key => $values){
                 foreach(is_array($values)? $values : [$values] as $value){
-                    $curlopt[CURLOPT_HTTPHEADER][] = sprintf("%s:%s", $key, $value);
+                    $curlopt[CURLOPT_HTTPHEADER][] = sprintf("%s: %s", $key, $value);
                 }
             }
         }
         
-        if($client->options['format'])
-            $client->url .= '.'.$client->options['format'];
+        //if($client->options['format'])
+        //    $client->url .= '.'.$client->options['format'];
         
         // Allow passing parameters as a pre-encoded string (or something that
         // allows casting to a string). Parameters passed as strings will not be
@@ -174,7 +179,7 @@ class RestClient implements Iterator, ArrayAccess {
             $parameters_string = (string) $parameters;
         
         if(strtoupper($method) === 'POST'){
-            $curlopt[CURLOPT_POST] = TRUE;
+            $curlopt[CURLOPT_POST] = $client->options['format'] == 'json' ? FALSE : TRUE;
             $curlopt[CURLOPT_POSTFIELDS] = $parameters_string;
         }
         elseif(strtoupper($method) !== 'GET'){
@@ -200,8 +205,13 @@ class RestClient implements Iterator, ArrayAccess {
             }
         }
         curl_setopt_array($client->handle, $curlopt);
+        curl_setopt($client->handle, CURLINFO_HEADER_OUT, true); // enable tracking
         
         $response = curl_exec($client->handle);
+       
+        $headerSent = curl_getinfo($client->handle, CURLINFO_HEADER_OUT ); // request headers
+        $client->req_header = $headerSent;
+        
         if($response !== FALSE)
             $client->parse_response($response);
         $client->info = (object) curl_getinfo($client->handle);
@@ -275,5 +285,3 @@ class RestClient implements Iterator, ArrayAccess {
         return $this->decoded_response;
     }
 }
-
-
