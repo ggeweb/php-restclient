@@ -24,7 +24,7 @@ $api = new RestClient([
     'headers' => ['Authorization' => 'Bearer '.OAUTH_BEARER], 
 ]);
 $result = $api->get("search/tweets", ['q' => "#php"]);
-// GET http://api.twitter.com/1.1/search/tweets.json?q=%23php
+// GET http://api.twitter.com/1.1/search/tweets?q=%23php
 if($result->info->http_code == 200)
     var_dump($result->decode_response());
 ```
@@ -38,7 +38,7 @@ Configurable Options
 `build_indexed_queries` `(bool)` - `http_build_query` automatically adds an array index to repeated parameters which is not desirable on most systems. Use this option to enable the default behavior. Defaults to `FALSE`.
 `user_agent` - User agent string to use in requests.  
 `base_url` - URL to use for the base of each request.  
-`format` - Is used to determine which decoder to use on response; a request URL like "api.twitter.com/1.1/statuses/user_timeline.json" would be expected to return well-formed JSON.  
+`format` - Is used to determine which decoder to use on response; a request URL like "api.twitter.com/1.1/statuses/user_timeline" would be expected to return well-formed JSON.  
 `format_regex` - Pattern to extract format from response Content-Type header, used to determine which decoder to use on response.  
 `decoders` - Associative array of format decoders. See ["Direct Iteration and Response Decoding"](#direct-iteration-and-response-decoding).  
 `username` - Username to use for HTTP basic authentication. Requires `password`.  
