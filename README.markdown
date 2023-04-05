@@ -1,16 +1,16 @@
 PHP REST Client
 ===============
-[![Total Downloads](http://poser.pugx.org/tcdent/php-restclient/downloads)](https://packagist.org/packages/tcdent/php-restclient)
+(https://packagist.org/packages/ggeweb/php-restclient)
 
-https://github.com/tcdent/php-restclient  
-(c) 2013-2022 Travis Dent <tcdent@gmail.com>  
+https://github.com/ggeweb/php-restclient  
+Created by (c) 2013-2022 Travis Dent <tcdent@gmail.com>, forked and modified by Marcos Souza Filho <marcos@ggeweb.com.br>
 
 Installation
 -----------
-Requires PHP 7.2 or above. Use [0.1.7](https://github.com/tcdent/php-restclient/releases/tag/0.1.7) for legacy versions of PHP. 
+Requires PHP 7.2 or above.
 
 ``` sh
-$ composer require tcdent/php-restclient
+$ composer require ggeweb/php-restclient
 ```
 
 
@@ -38,7 +38,7 @@ Configurable Options
 `build_indexed_queries` `(bool)` - `http_build_query` automatically adds an array index to repeated parameters which is not desirable on most systems. Use this option to enable the default behavior. Defaults to `FALSE`.
 `user_agent` - User agent string to use in requests.  
 `base_url` - URL to use for the base of each request.  
-`format` - Format string is appended to resource on request (extension), and used to determine which decoder to use on response; a request URL like "api.twitter.com/1.1/statuses/user_timeline.json" would be expected to return well-formed JSON.  
+`format` - Is used to determine which decoder to use on response; a request URL like "api.twitter.com/1.1/statuses/user_timeline.json" would be expected to return well-formed JSON.  
 `format_regex` - Pattern to extract format from response Content-Type header, used to determine which decoder to use on response.  
 `decoders` - Associative array of format decoders. See ["Direct Iteration and Response Decoding"](#direct-iteration-and-response-decoding).  
 `username` - Username to use for HTTP basic authentication. Requires `password`.  
@@ -117,8 +117,8 @@ $api = new RestClient([
     'base_url' => "http://vimeo.com/api/v2", 
     'format' => "php"
 ]);
-$result = $api->get("tcdent/info");
-// GET http://vimeo.com/api/v2/tcdent/info.php
+$result = $api->get("demo/info");
+// GET http://vimeo.com/api/v2/demo/info
 foreach($result as $key => $value)
     var_dump($value);
 ```
