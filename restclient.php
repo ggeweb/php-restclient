@@ -19,7 +19,6 @@ class RestClient implements \Iterator, \ArrayAccess {
     // Populated after execution:
     public $response; // Response body.
     public $headers; // Parsed reponse header object.
-    public $req_header; // Request header string.
     public $info; // Response info object.
     public $error; // Response error string.
     public $response_status_lines; // indexed array of raw HTTP response status lines.
@@ -205,12 +204,8 @@ class RestClient implements \Iterator, \ArrayAccess {
             }
         }
         curl_setopt_array($client->handle, $curlopt);
-        curl_setopt($client->handle, CURLINFO_HEADER_OUT, true); // enable tracking
         
         $response = curl_exec($client->handle);
-       
-        $headerSent = curl_getinfo($client->handle, CURLINFO_HEADER_OUT ); // request headers
-        $client->req_header = $headerSent;
         
         if($response !== FALSE)
             $client->parse_response($response);
