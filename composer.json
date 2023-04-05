@@ -1,6 +1,6 @@
 {
     "name": "ggeweb/php-restclient", 
-    "version": "0.1.8.6", 
+    "version": "0.1.8.3", 
     "description": "A generic REST API client for PHP (Forked from tcdent/php-restclient)", 
     "type": "library", 
     "keywords": ["REST", "api", "client", "curl", "JSON", "XML"], 
