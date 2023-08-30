@@ -3,7 +3,7 @@ PHP REST Client
 (https://packagist.org/packages/ggeweb/php-restclient)
 
 https://github.com/ggeweb/php-restclient  
-Created by (c) 2013-2022 Travis Dent <tcdent@gmail.com>, forked and modified by Marcos Souza Filho <marcos@ggeweb.com.br>
+Created by (c) 2013-2022 Travis Dent <tcdent@gmail.com>, forked and modified by Marcos Souza Filho [@msfilho](https://github.com/msfilho)
 
 Installation
 -----------
